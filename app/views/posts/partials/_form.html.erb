@@ -8,14 +8,20 @@
 
 	<%= f.fields_for :blocks, f.object.blocks.build do |bf| %>
 		<div class="form-group">
-			<%= bf.label :title %>
+			<%= bf.label "Add new" %>
 			<% options = %w(Blocks::Text Blocks::Textarea) %>
-			<% data = { reflex: "change->post#update" } %>
-			<%= bf.select :type, options_for_select(options, bf.object.type), { include_blank: "Select..." }, { class: "form-control", data: data } %>
-		</div>
-	<% end %>
 
-	<%= f.submit "Submit", class: "btn btn-danger" %>
+			<div class="input-group mb-3">
+			  <%= bf.select :type, options_for_select(options, bf.object.type), { include_blank: "Select..." }, { class: "form-control" } %>
+
+		    <div class="input-group-append">
+		    	<% data = { reflex: "click->block#create", post_id: f.object.id } %>
+		    	<%= f.submit "Add", class: "btn btn-danger", data: data %>
+		    </div>
+			</div>
+		</div>
+
+	<% end %>
 
 	<hr>
 
@@ -24,6 +30,10 @@
 			<%= render "posts/partials/block_form", f: bf %>
 		<% end %>
 	<% end if f.object.blocks.any? %>
+
+	<hr>
+
+	<%= f.submit "Submit", class: "btn btn-danger" %>
 <% end %>
 
 

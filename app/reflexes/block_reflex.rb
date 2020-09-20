@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
-class BlocksReflex < ApplicationReflex
-  before_reflex :build_post, only: %w(update)
+class BlockReflex < ApplicationReflex
+  before_reflex :build_post, only: %w(create)
 
-  def update
-    binding.pry
-    @post.update(permitted_params)
+  def create
+    block = @post.blocks.build(permitted_params)
 
-    @post
+    block.save
   end
 
   protected
 
   def permitted_params
-    params.require(:post).permit(:id, :title, blocks_attributes: {})
+    params.require(:post).permit(blocks_attributes: :type).dig(:blocks_attributes).find { |p| p.dig(:type) }
   end
 
   def build_post
-    @post ||= Post.find(params.require(:id))
+    @post ||= Post.find(element.dataset.dig(:post_id).to_i)
   end
 end
