@@ -1,0 +1,34 @@
+<% data = {} %>
+<%= form_with model: post, local: true, html: { data: data } do |f| %>
+	<div class="form-group">
+		<%= f.label :title %>
+		<%= f.text_field :title, class: "form-control" %>
+	  <%= content_tag :span, "The title of the post", class: "form-text text-muted" %>
+	</div>
+
+	<%= f.fields_for :blocks, f.object.blocks.build do |bf| %>
+		<div class="form-group">
+			<%= bf.label :title %>
+			<% options = %w(Blocks::Text Blocks::Textarea) %>
+			<% data = { reflex: "change->post#update" } %>
+			<%= bf.select :type, options_for_select(options, bf.object.type), { include_blank: "Select..." }, { class: "form-control", data: data } %>
+		</div>
+	<% end %>
+
+	<%= f.submit "Submit", class: "btn btn-danger" %>
+
+	<hr>
+
+	<% f.object.blocks.positioned.each do |block| %>
+		<%= f.fields_for :blocks, block do |bf| %>
+			<%= render "posts/partials/block_form", f: bf %>
+		<% end %>
+	<% end if f.object.blocks.any? %>
+<% end %>
+
+
+Structure:
+
+title at top, updated on save
+then section for blocks, selecting the type, and onsubmit, the reflex adds it to the post and reloads
+then just list blocks
