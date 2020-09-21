@@ -1,3 +1,11 @@
+
+<h2>Structure:</h2>
+<ul>
+	<li>title at top, updated on save</li>
+	<li>then section for blocks, selecting the type, and onsubmit, the reflex adds it to the post and reloads</li>
+	<li>then just list blocks</li>
+</ul>
+
 <% data = {} %>
 <%= form_with model: post, local: true, html: { data: data } do |f| %>
 	<div class="form-group">
@@ -20,14 +28,28 @@
 		    </div>
 			</div>
 		</div>
-
 	<% end %>
 
 	<hr>
 
 	<% f.object.blocks.positioned.each do |block| %>
 		<%= f.fields_for :blocks, block do |bf| %>
-			<%= render "posts/partials/block_form", f: bf %>
+		<div class="input-group">
+		  <div class="input-group-prepend">
+			  <div class="input-group-text js-sortable-handle">
+				  <a href="#" class="" style="color: black;">&#10021;</a>
+				</div>
+		  </div>
+
+		  <%= render "posts/partials/block_form", f: bf %>
+
+		  <div class="input-group-append">
+		  	<%== link_to "#", method: :delete, data: { post_id: block.post.id, id: block.id, reflex: "click->Block#destroy" }, class: "btn btn-danger", id: "delete-#{block.id}" do %>
+			  	&#10005;
+		  	<% end %>
+		  </div>
+		</div>
+
 		<% end %>
 	<% end if f.object.blocks.any? %>
 
@@ -35,10 +57,3 @@
 
 	<%= f.submit "Submit", class: "btn btn-danger" %>
 <% end %>
-
-
-Structure:
-
-title at top, updated on save
-then section for blocks, selecting the type, and onsubmit, the reflex adds it to the post and reloads
-then just list blocks
