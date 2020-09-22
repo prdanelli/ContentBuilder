@@ -7,53 +7,69 @@
 </ul>
 
 <% data = {} %>
-<%= form_with model: post, local: true, html: { data: data } do |f| %>
-	<div class="form-group">
-		<%= f.label :title %>
-		<%= f.text_field :title, class: "form-control" %>
-	  <%= content_tag :span, "The title of the post", class: "form-text text-muted" %>
+<%= form_with model: post, local: true, html: { data: data, class: "row mt-5" } do |f| %>
+	<div class="col-12">
+		<div class="form-group">
+			<%= f.label :title %>
+			<%= f.text_field :title, class: "form-control" %>
+		  <%= content_tag :span, "The title of the post", class: "form-text text-muted" %>
+		</div>
 	</div>
 
-	<%= f.fields_for :blocks, f.object.blocks.build do |bf| %>
-		<div class="form-group">
-			<%= bf.label "Add new" %>
-			<% options = %w(Blocks::Text Blocks::Textarea) %>
+	<div class="col-12">
+		<%= f.fields_for :blocks, f.object.blocks.build do |bf| %>
+			<div class="form-group">
+				<%= bf.label "Add new" %>
+				<% options = %w(Blocks::Text Blocks::Textarea) %>
 
-			<div class="input-group mb-3">
-			  <%= bf.select :type, options_for_select(options, bf.object.type), { include_blank: "Select..." }, { class: "form-control" } %>
+				<div class="input-group mb-3">
+				  <%= bf.select :type, options_for_select(options, bf.object.type), { include_blank: "Select..." }, { class: "form-control" } %>
 
-		    <div class="input-group-append">
-		    	<% data = { reflex: "click->block#create", post_id: f.object.id } %>
-		    	<%= f.submit "Add", class: "btn btn-danger", data: data %>
-		    </div>
-			</div>
-		</div>
-	<% end %>
-
-	<hr>
-
-	<% f.object.blocks.positioned.each do |block| %>
-		<%= f.fields_for :blocks, block do |bf| %>
-		<div class="input-group">
-		  <div class="input-group-prepend">
-			  <div class="input-group-text js-sortable-handle">
-				  <a href="#" class="" style="color: black;">&#10021;</a>
+			    <div class="input-group-append">
+			    	<% data = { reflex: "click->block#create", post_id: f.object.id } %>
+			    	<%= f.submit "Add", class: "btn btn-danger", data: data %>
+			    </div>
 				</div>
-		  </div>
+			</div>
+		<% end %>
+	</div>
 
-		  <%= render "posts/partials/block_form", f: bf %>
+	<div class="col-12">
+		<hr>
+	</div>
 
-		  <div class="input-group-append">
-		  	<%== link_to "#", method: :delete, data: { post_id: block.post.id, id: block.id, reflex: "click->Block#destroy" }, class: "btn btn-danger", id: "delete-#{block.id}" do %>
-			  	&#10005;
-		  	<% end %>
-		  </div>
+	<div class="col-12 block-group">
+		<% f.object.blocks.positioned.each do |block| %>
+				<%= f.fields_for :blocks, block do |bf| %>
+					<div class="row" data-id="<%= block.id %>" data-post_id="<%= block.post_id %>" data-controller="drag" data-drag-url="/posts/:post_id/blocks/:id/move">
+						<div class="col-12 mb-3">
+								<div class="input-group">
+								  <div class="input-group-prepend">
+									  <div class="input-group-text js-sortable-handle">
+										  <a href="#" class="" style="color: black;">&#10021;</a>
+										</div>
+								  </div>
+
+								  <%= render "posts/partials/block_form", f: bf %>
+
+								  <div class="input-group-append">
+								  	<%== link_to "#", method: :delete, data: { post_id: block.post.id, id: block.id, reflex: "click->Block#destroy" }, class: "btn btn-danger", id: "delete-#{block.id}" do %>
+									  	&#10005;
+								  	<% end %>
+								  </div>
+								</div>
+						</div>
+					</div>
+				<% end %>
+		<% end if f.object.blocks.any? %>
+	</div>
+
+		<div class="col-12">
+			<hr>
 		</div>
 
-		<% end %>
-	<% end if f.object.blocks.any? %>
-
-	<hr>
-
-	<%= f.submit "Submit", class: "btn btn-danger" %>
+		<div class="col-12">
+			<%= f.submit "Submit", class: "btn btn-danger" %>
+		</div>
+	</div>
 <% end %>

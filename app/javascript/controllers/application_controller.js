@@ -17,6 +17,12 @@ export default class extends Controller {
     StimulusReflex.register(this)
   }
 
+  getMetaValue(name) {
+    const element = document.head.querySelector(`meta[name="${name}"]`)
+
+    return element.getAttribute("content")
+  }
+
   /* Application wide lifecycle methods.
    * Use these methods to handle lifecycle concerns for the entire application.
    * Using the lifecycle is optional, so feel free to delete these stubs if you don't need them.
