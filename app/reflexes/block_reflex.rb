@@ -10,7 +10,7 @@ class BlockReflex < ApplicationReflex
   end
 
   def destroy
-    @post.blocks.find(block_id).destroy
+    @post.blocks.find(element.dataset.dig(:id).to_i).destroy
 
     @post.reload
   end
@@ -18,14 +18,11 @@ class BlockReflex < ApplicationReflex
   protected
 
   def permitted_params
-    params.require(:post).permit(blocks_attributes: :type).dig(:blocks_attributes).find { |p| p.dig(:type) }
+    params.permit(:type)
   end
 
+  # Prolly easier to get post from the param as it'll always be present
   def build_post
     @post ||= Post.find(element.dataset.dig(:post_id).to_i)
-  end
-
-  def block_id
-    element.dataset.dig(:id).to_i
   end
 end
