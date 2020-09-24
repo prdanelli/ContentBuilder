@@ -1,0 +1,8 @@
+<% f.object.class.fields.each do |block| %>
+	<%= f.fields_for :blocks, block do |fb| %>
+		<%= fb.hidden_field :parent_id, value: f.object.id %>
+		<%= fb.hidden_field :type, value: block.type %>
+
+		<%= fb.send fb.object.class.field_type, :content, class: "form-control mb-3" %>
+	<% end %>
+<% end %>
