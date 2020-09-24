@@ -1,9 +1,7 @@
-<section class="container mt-5 mb-5">
-	<div class="row">
-		<div class="col-12">
-			<h1>Post New</h1>
+<% content_for :title do %>
+	Post New
+<% end %>
 
-			<%= render "posts/partials/form", post: @post %>
-		</div>
-	</div>
-</section>
+<% content_for :content do %>
+	<%= render "posts/partials/form", post: @post %>
+<% end %>
