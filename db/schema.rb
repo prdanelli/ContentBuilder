@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_19_145436) do
+ActiveRecord::Schema.define(version: 2020_09_24_173530) do
 
   create_table "blocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "type"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_09_19_145436) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "content"
+    t.integer "parent_id"
+    t.index ["parent_id"], name: "index_blocks_on_parent_id"
     t.index ["post_id"], name: "index_blocks_on_post_id"
   end
 
