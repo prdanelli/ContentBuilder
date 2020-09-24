@@ -1,1 +1,1 @@
-<%= f.text_area :content, class: "form-control" %>
+<%= f.send f.object.class.field_type, :content, class: "form-control" %>
