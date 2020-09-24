@@ -3,7 +3,8 @@ class Block < ApplicationRecord
 
   scope :positioned, -> { order(position: :asc) }
 
-  acts_as_list
+  acts_as_list scope: :post
+
   def title
     self.class.name.demodulize
   end
