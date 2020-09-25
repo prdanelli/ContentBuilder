@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     if @post.update(permitted_params)
       redirect_to posts_path, success: "Created Post"
     else
-      flash[:danger] = "An error occured"
+      flash[:danger] = @post.errors.full_messages
       render :edit
     end
   end

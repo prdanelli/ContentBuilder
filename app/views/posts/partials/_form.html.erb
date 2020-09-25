@@ -32,7 +32,7 @@
 	</div>
 
 	<div class="col-12 block-group">
-		<% f.object.blocks.positioned.each do |block| %>
+		<% f.object.blocks.positioned.top_level.each do |block| %>
 				<%= f.fields_for :blocks, block do |bf| %>
 					<div
 						class="row"

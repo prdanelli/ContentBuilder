@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BlockReflex < ApplicationReflex
   before_reflex :build_post, only: %w(create destroy)
 
@@ -10,7 +8,10 @@ class BlockReflex < ApplicationReflex
   end
 
   def destroy
-    @post.blocks.find(element.dataset.dig(:id).to_i).destroy
+    block = @post.blocks.find(element.dataset.dig(:id).to_i)
+    # FIXME: For some reason deleting CTA doesn't delete child blocks - prolly the association is wrong some how
+    block.blocks.destroy_all if @post.blocks.any?
+    block.destroy
 
     @post.reload
   end
