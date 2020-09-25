@@ -136,7 +136,7 @@ GEM
     multi_json (1.15.0)
     multipart-post (2.1.1)
     mysql2 (0.5.3)
-    nio4r (2.5.3)
+    nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     pry (0.13.1)
@@ -240,11 +240,12 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stimulus_reflex (3.2.3)
-      cable_ready (>= 4.1.2)
+    stimulus_reflex (3.3.0)
+      cable_ready (>= 4.3.0)
       nokogiri
       rack
       rails (>= 5.2)
+      redis
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
