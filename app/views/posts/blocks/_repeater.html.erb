@@ -1,0 +1,18 @@
+<div data-post-id="<%= post.id %>">
+  <div data-parent-id="<%= f.object.id %>" data-parent-type="Blocks::Repeater">
+  	<%= text_field_tag :content, {}, value: f.object.content, class: "form-control" %>
+
+    <% data = { reflex: "click->block#create", "reflex-dataset": "combined", post_id: post.id } %>
+    <%= submit_tag "Add", class: "btn btn-danger", data: data %>
+  </div>
+</div>
+
+<% (f.object.blocks.presence || []).each do |block| %>
+	<%= f.fields_for :blocks, block do |fb| %>
+		<%= fb.hidden_field :post_id, value: f.object.post_id %>
+		<%= fb.hidden_field :parent_id, value: f.object.id %>
+		<%= fb.hidden_field :type, value: block.type %>
+
+		<%= render "posts/blocks/#{fb.object.type.demodulize.downcase}", f: fb, post: post %>
+	<% end %>
+<% end %>

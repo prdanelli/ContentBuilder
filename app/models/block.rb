@@ -6,6 +6,10 @@ class Block < ApplicationRecord
 
   acts_as_list scope: :post
 
+  def self.avaiable_blocks
+    %w(Blocks::Text Blocks::Textarea Blocks::Cta Blocks::Repeater)
+  end
+
   def title
     self.class.name.demodulize
   end
