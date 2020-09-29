@@ -1,0 +1,18 @@
+<% (f.object.blocks.presence || []).each do |block| %>
+	<div class="col-12">
+		<div class="row">
+			<div class="col-1">
+				<a href="#" class="js-sortable-handle btn btn-light btn-sm" style="color: black;">&#10021;</a>
+			</div>
+			<div class="alert alert-dark col-11">
+				<%= f.fields_for :blocks, block do |fb| %>
+					<%= fb.hidden_field :post_id, value: f.object.post_id %>
+					<%= fb.hidden_field :parent_id, value: f.object.id %>
+					<%= fb.hidden_field :type, value: block.type %>
+
+					<%= render "posts/blocks/#{fb.object.type.demodulize.downcase}", f: fb, post: post %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+<% end %>

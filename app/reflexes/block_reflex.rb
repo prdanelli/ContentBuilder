@@ -1,20 +1,21 @@
 class BlockReflex < ApplicationReflex
   before_reflex :build_post, only: %w(create destroy)
 
-  # Note: This is a work in progress, just trying to get it all working for now
+  # NOTE: This is a work in progress, just trying to get it all working for now
+  # TODO: Split method into builder methods on the block, so each class is responsible for building its self
   def create
-    block_params = permitted_params.to_h
-
     if element.dataset.parent_type == "Blocks::Repeater"
-      parent = @post.blocks.find(element.dataset.parent_id)
-      block_params.merge!(parent_id: element.dataset.parent_id, post_id: @post.id, type: element.dataset.parent_type)
+      repeater = @post.blocks.find(element.dataset.parent_id)
+      repeater.update(content: permitted_params.require(:content))
 
-      block = parent.blocks.build(block_params)
-      block.save
+      group = repeater.blocks.create(type: "Blocks::Group", parent_id: repeater.id, post_id: @post.id)
 
-      block.content.split(" ").map { |type| block.blocks.create(type: type, parent_id: element.dataset.parent_id, post_id: @post.id) }
+      repeater.content.split(" ").map do |type|
+        group.blocks.create(type: type, post_id: @post.id)
+      end
+
     else
-      @post.blocks.build(block_params).save
+      @post.blocks.create(permitted_params.to_h)
     end
   end
 

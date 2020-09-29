@@ -4,7 +4,7 @@ class Block < ApplicationRecord
   scope :positioned, -> { order(position: :asc) }
   scope :top_level, -> { where(parent_id: nil) }
 
-  acts_as_list scope: :post
+  acts_as_list scope: %i(post_id parent_id)
 
   def self.avaiable_blocks
     %w(Blocks::Text Blocks::Textarea Blocks::Cta Blocks::Repeater)
