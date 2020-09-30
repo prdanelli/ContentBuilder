@@ -1,11 +1,15 @@
-<div class="form-group row">
+<div class="frow">
 	<div class="col-12">
 		<div data-post-id="<%= post.id %>">
 		  <div data-parent-id="<%= f.object.id %>" data-parent-type="Blocks::Repeater">
-		  	<%= text_field_tag :content, {}, value: f.object.content, class: "form-control" %>
+		  	<div class="input-group mb-3">
+			  	<%= text_field_tag :content, {}, value: f.object.content, class: "form-control" %>
 
-		    <% data = { reflex: "click->block#create", "reflex-dataset": "combined", post_id: post.id } %>
-		    <%= submit_tag "Add", class: "btn btn-danger", data: data %>
+				  <div class="input-group-append">
+				    <% data = { reflex: "click->block#create", "reflex-dataset": "combined", post_id: post.id } %>
+				    <%= submit_tag "Add", class: "btn btn-info", data: data %>
+				  </div>
+			  </div>
 		  </div>
 		</div>
 	</div>

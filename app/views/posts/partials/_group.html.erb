@@ -1,10 +1,10 @@
 <% (f.object.blocks.presence || []).each do |block| %>
 	<div class="col-12">
-		<div class="row">
-			<div class="col-1">
+		<div class="d-flex">
+			<div class="p-2">
 				<a href="#" class="js-sortable-handle btn btn-light btn-sm" style="color: black;">&#10021;</a>
 			</div>
-			<div class="alert alert-dark col-11">
+			<div class="bd-highlight p-2 flex-grow-1">
 				<%= f.fields_for :blocks, block do |fb| %>
 					<%= fb.hidden_field :post_id, value: f.object.post_id %>
 					<%= fb.hidden_field :parent_id, value: f.object.id %>
@@ -13,6 +13,11 @@
 					<%= render "posts/blocks/#{fb.object.type.demodulize.downcase}", f: fb, post: post %>
 				<% end %>
 			</div>
-		</div>
+			<div class="p-2">
+		  	<%== link_to "#", method: :delete, data: { post_id: block.post.id, id: block.id, reflex: "click->Block#destroy" }, class: "btn btn-danger btn-sm", id: "delete-#{block.id}" do %>
+  		  	&#10005;
+  	  	<% end %>
+	  	</div>
+  	</div>
 	</div>
 <% end %>

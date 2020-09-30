@@ -1,1 +1,14 @@
 @import "~bootstrap/scss/bootstrap.scss";
+
+.block-group {
+  background-color: #e9ecef;
+  border-radius: .3rem;
+
+  h5 {
+    margin-bottom: 0;
+  }
+}
+
+.sortable-ghost {
+  opacity: 0.2;
+}
