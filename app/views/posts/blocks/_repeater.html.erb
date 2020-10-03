@@ -1,4 +1,4 @@
-<div class="frow">
+<div class="row">
 	<div class="col-12">
 		<div data-post-id="<%= post.id %>">
 		  <div data-parent-id="<%= f.object.id %>" data-parent-type="Blocks::Repeater">
@@ -14,5 +14,7 @@
 		</div>
 	</div>
 
-	<%= render "posts/partials/group", f: f, post: post %>
+	<div class="col-12">
+		<%= render "posts/partials/group", f: f, post: post %>
+	</div>
 </div>

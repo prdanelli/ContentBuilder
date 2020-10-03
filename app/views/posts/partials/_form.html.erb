@@ -37,7 +37,7 @@
 					</div>
 				</div>
 
-				<div class="col-12 js-drag-list-group">
+				<div class="col-12 drag-list-group">
 					<% f.object.blocks.positioned.top_level.each do |block| %>
 						<%= f.fields_for :blocks, block do |bf| %>
 							<div
@@ -46,6 +46,7 @@
 								data-post_id="<%= block.post_id %>"
 								data-controller="drag"
 								data-drag-url="/posts/:post_id/blocks/:id/move"
+								data-group-name="drag-list-group"
 							>
 								<div class="col-12 block-group pt-3 mb-3">
 									<div class="row">

@@ -6,7 +6,7 @@ export default class extends ApplicationController {
     this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this),
       handle: ".js-sortable-handle",
-      group: { name: "js-drag-list-group" },
+      group: { name: this.element.dataset.groupName },
       animation: 150,
       ghostClass: 'sortable-ghost',
     })
