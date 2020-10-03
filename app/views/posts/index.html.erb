@@ -3,24 +3,49 @@
 <% end %>
 
 <% content_for :content do %>
-	<table class="table">
-		<thead>
-			<th>ID</th>
-			<th>Title</th>
-			<th>Actions</th>
-		</thead>
-		<tbody>
-			<% if @posts.any? %>
-				<% @posts.each do |post| %>
-					<tr>
-						<td><%= post.id %></td>
-						<td><%= post.title %></td>
-						<td><%= link_to "Edit", edit_post_path(post), class: "btn" %></td>
-					</tr>
+
+<div class="row mb-5 mt-5">
+	<div class="col-12">
+		<h2>Todo's</h2>
+		<ol>
+			<li>send broadcast to notify user that page saved</li>
+			<li>
+				Add Field Types:
+				<ul>
+					<li>Action Text</li>
+					<li>Image</li>
+					<li>Gallery (including reordering</li>
+					<li>Links</li>
+				</ul>
+			</li>
+			<li>Change CTA to be more like Repeater, with definable fields, but limit groups to 1</li>
+			<li>Nicer way of adding Repeater fields</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 mb-5">
+		<table class="table">
+			<thead>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Actions</th>
+			</thead>
+			<tbody>
+				<% if @posts.any? %>
+					<% @posts.each do |post| %>
+						<tr>
+							<td><%= post.id %></td>
+							<td><%= post.title %></td>
+							<td><%= link_to "Edit", edit_post_path(post), class: "btn" %></td>
+						</tr>
+					<% end %>
+				<% else %>
+					<td colspan="3">No Posts Found: <%= link_to "Add new", new_post_path %></td>
 				<% end %>
-			<% else %>
-				<td colspan="3">No Posts Found: <%= link_to "Add new", new_post_path %></td>
-			<% end %>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
+</div>
 <% end %>
