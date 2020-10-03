@@ -13,4 +13,8 @@ class Block < ApplicationRecord
   def title
     self.class.name.demodulize
   end
+
+  def partial_name
+    self.type.demodulize.downcase
+  end
 end

@@ -10,13 +10,13 @@
 					<%= fb.hidden_field :parent_id, value: f.object.id %>
 					<%= fb.hidden_field :type, value: block.type %>
 
-					<%= render "posts/blocks/#{fb.object.type.demodulize.downcase}", f: fb, post: post %>
 				<% end %>
 			</div>
 			<div class="p-2">
 		  	<%== link_to "#", method: :delete, data: { post_id: block.post.id, id: block.id, reflex: "click->Block#destroy" }, class: "btn btn-danger btn-sm", id: "delete-#{block.id}" do %>
   		  	&#10005;
   	  	<% end %>
+						<%= render "posts/blocks/#{fb.object.partial_name}", f: fb, post: post %>
 	  	</div>
   	</div>
 	</div>

@@ -4,6 +4,6 @@
 		<%= fb.hidden_field :parent_id, value: f.object.id %>
 		<%= fb.hidden_field :type, value: block.type %>
 
-		<%= render "posts/blocks/#{fb.object.type.demodulize.downcase}", f: fb, post: post %>
+		<%= render "posts/blocks/#{fb.object.partial_name}", f: fb, post: post %>
 	<% end %>
 <% end %>
