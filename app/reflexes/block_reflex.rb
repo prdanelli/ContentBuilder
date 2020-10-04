@@ -22,7 +22,7 @@ class BlockReflex < ApplicationReflex
   def destroy
     block = @post.blocks.find(element.dataset.dig(:id).to_i)
     # FIXME: For some reason deleting CTA doesn't delete child blocks - prolly the association is wrong some how
-    block.blocks.destroy_all if @post.blocks.any?
+    block.blocks.destroy_all if block.respond_to?(:blocks) && block.blocks.any?
     block.destroy
 
     @post.reload
