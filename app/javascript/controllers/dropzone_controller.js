@@ -139,6 +139,16 @@ function createDirectUpload(file, url, controller) {
 }
 
 function createDropZone(controller) {
+  Dropzone.autoDiscover = false
+
+  const data = controller.element.dataset
+
+  Dropzone.options["imageBlock" + data.block_id] = {
+    maxFilesize: data.maxFileSize,
+    thumbnailWidth: data.thumbWith,
+    thumbnailHeight: data.thumbHeight,
+  };
+
   return new Dropzone(controller.element, {
     url: controller.url,
     headers: controller.headers,

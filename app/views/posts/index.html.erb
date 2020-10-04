@@ -12,8 +12,39 @@
 			<li>
 				Add Field Types:
 				<ul>
-					<li>Action Text</li>
-					<li>Image</li>
+					<li>
+						Image
+						<ul>
+							<li>Need to use reflex for submission as post needs to be saved via controller (right now) to attach image to model</li>
+							<li>
+								Checkout: https://www.dropzonejs.com/
+								```
+								// "myAwesomeDropzone" is the camelized version of the HTML element's ID
+								Dropzone.options.myAwesomeDropzone = {
+								  paramName: "file", // The name that will be used to transfer the file
+								  maxFilesize: 2, // MB
+								  accept: function(file, done) {
+								    if (file.name == "justinbieber.jpg") {
+								      done("Naha, you don't.");
+								    }
+								    else { done(); }
+								  }
+								};
+								```
+
+								Then change thumbail size:
+
+								```
+								Dropzone.options.myAwesomeDropzone = {
+								  ....
+								  thumbnailWidth: 250,
+								  thumbnailHeight: 250,
+								  ....
+								}
+								```
+							</li>
+						</ul>
+					</li>
 					<li>Gallery (including reordering</li>
 					<li>Links</li>
 				</ul>
