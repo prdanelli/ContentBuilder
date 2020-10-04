@@ -1,0 +1,4 @@
+<%# We cannot reinialize Trix, so don't refresh it after delete or update reflexes %>
+<div data-reflex-permanent>
+	<%= f.send f.object.class.field_type, :content, class: "form-control mb-3 rich-text", data: { reflex: "blur->post#update" } %>
+</div>

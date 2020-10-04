@@ -7,7 +7,8 @@ class PostReflex < ApplicationReflex
   def update
     @post.update(permitted_params)
 
-    @post
+    # We dont need to refresh the page as its just form data being sent by a single user
+    morph :nothing
   end
 
   protected
