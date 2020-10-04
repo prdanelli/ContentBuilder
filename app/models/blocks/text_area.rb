@@ -1,5 +1,5 @@
 module Blocks
-  class Textarea < ::Block
+  class TextArea < ::Block
     def self.field_type
       :text_area
     end

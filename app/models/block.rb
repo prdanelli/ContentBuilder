@@ -7,7 +7,7 @@ class Block < ApplicationRecord
   acts_as_list scope: %i(post_id parent_id)
 
   def self.avaiable_blocks
-    %w(Blocks::Text Blocks::Textarea Blocks::Cta Blocks::Repeater)
+    %w(Blocks::Text Blocks::TextArea Blocks::RichTextArea Blocks::Cta Blocks::Repeater)
   end
 
   def title
@@ -15,6 +15,6 @@ class Block < ApplicationRecord
   end
 
   def partial_name
-    self.type.demodulize.downcase
+    self.type.demodulize.underscore.downcase
   end
 end
