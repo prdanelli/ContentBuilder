@@ -11,3 +11,6 @@ const application = Application.start()
 const context = require.context("controllers", true, /_controller\.js$/)
 application.load(definitionsFromContext(context))
 StimulusReflex.initialize(application, { consumer, controller, debug: false })
+
+import * as ActiveStorage from "@rails/activestorage"
+ActiveStorage.start()
