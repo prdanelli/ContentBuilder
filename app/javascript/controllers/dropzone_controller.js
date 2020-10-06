@@ -6,6 +6,7 @@ import { Controller } from "stimulus"
 import { DirectUpload } from "@rails/activestorage"
 import Dropzone from "dropzone"
 import { getMetaValue, toArray, findElement, removeElement, insertAfter } from "../js/helpers"
+import StimulusReflex from "stimulus_reflex"
 
 Dropzone.autoDiscover = false
 
@@ -13,20 +14,23 @@ export default class extends Controller {
   static targets = [ "input" ]
 
   connect() {
+    StimulusReflex.register(this)
+
     this.dropZone = createDropZone(this)
-    this.hideFileInput()
-    this.bindEvents()
+    this._hideFileInput()
+    this._bindEvents()
   }
 
-  // Private
-  hideFileInput() {
+  _hideFileInput() {
     this.inputTarget.disabled = true
     this.inputTarget.style.display = "none"
   }
 
-  bindEvents() {
+  _bindEvents() {
     this.dropZone.on("addedfile", (file) => {
-      setTimeout(() => { file.accepted && createDirectUploadController(this, file).start() }, 500)
+      setTimeout(() => {
+        file.accepted && createDirectUploadController(this, file).start()
+      }, 500)
     })
 
     this.dropZone.on("removedfile", (file) => {
@@ -44,24 +48,60 @@ export default class extends Controller {
     this.dropZone.on("queuecomplete", (file) => {
       this.submitButton.disabled = false
     })
+
+    this.dropZone.on("complete", (file) => {
+      var img = this.element.querySelector(".dz-image img")
+      img.classList.add("dropzone--dropped-image")
+      this.element.appendChild(img)
+
+      this.element.querySelectorAll(".dz-preview,.dropzone-msg").forEach((item) => {
+        item.style.display = "none";
+      })
+
+      // Trigger our stimulate action to save the images
+      this.stimulate("Post#update")
+    })
   }
 
-  get headers() { return { "X-CSRF-Token": getMetaValue("csrf-token") } }
+  get headers() {
+    return { "X-CSRF-Token": getMetaValue("csrf-token") }
+  }
 
-  get url() { return this.inputTarget.getAttribute("data-direct-upload-url") }
+  get url() {
+    return this.inputTarget.getAttribute("data-direct-upload-url")
+  }
 
-  get maxFiles() { return this.data.get("maxFiles") || 1 }
+  get maxFiles() {
+    return this.data.get("maxFiles") || 1
+  }
 
-  get maxFileSize() { return this.data.get("maxFileSize") || 256 }
+  get maxFileSize() {
+    return this.data.get("maxFileSize") || 16
+  }
 
-  get acceptedFiles() { return this.data.get("acceptedFiles") }
+  get acceptedFiles() {
+    return this.data.get("acceptedFiles")
+  }
 
-  get addRemoveLinks() { return this.data.get("addRemoveLinks") || true }
+  get addRemoveLinks() {
+    return this.data.get("addRemoveLinks") || false
+  }
 
-  get form() { return this.element.closest("form") }
+  get form() {
+    return this.element.closest("form")
+  }
 
-  get submitButton() { return findElement(this.form, "input[type=submit], button[type=submit]") }
+  get thumbnailWidth() {
+    return this.data.get("thumbnailWidth") || 400
+  }
 
+  get thumbnailHeight() {
+    return this.data.get("thumbnailHeight") || 400
+  }
+
+  get submitButton() {
+    return findElement(this.form, "input[type=submit], button[type=submit]")
+  }
 }
 
 class DirectUploadController {
@@ -141,14 +181,6 @@ function createDirectUpload(file, url, controller) {
 function createDropZone(controller) {
   Dropzone.autoDiscover = false
 
-  const data = controller.element.dataset
-
-  Dropzone.options["imageBlock" + data.block_id] = {
-    maxFilesize: data.maxFileSize,
-    thumbnailWidth: data.thumbWith,
-    thumbnailHeight: data.thumbHeight,
-  };
-
   return new Dropzone(controller.element, {
     url: controller.url,
     headers: controller.headers,
@@ -156,6 +188,8 @@ function createDropZone(controller) {
     maxFilesize: controller.maxFileSize,
     acceptedFiles: controller.acceptedFiles,
     addRemoveLinks: controller.addRemoveLinks,
+    thumbnailWidth: controller.thumbnailWidth,
+    thumbnailHeight: controller.thumbnailHeight,
     autoQueue: false
   })
 }

@@ -1,24 +1,5 @@
 <div class="row">
 	<div class="col-12">
-		<%= form_tag "#" do |bf| %>
-			<%= label_tag "Add new" %>
-
-			<div class="input-group mb-3">
-			  <%= select_tag :type, options_for_select(Block.avaiable_blocks), { class: "form-control" } %>
-
-		    <div class="input-group-append">
-		    	<% data = { reflex: "click->block#create", post_id: post.id } %>
-		    	<%= submit_tag "Add", class: "btn btn-info", data: data %>
-		    </div>
-			</div>
-		<% end %>
-	</div>
-
-	<div class="col-12">
-		<hr>
-	</div>
-
-	<div class="col-12">
 		<%= form_with model: post, local: true do |f| %>
 			<div class="row">
 				<div class="col-12 mt-5">
@@ -81,6 +62,23 @@
 							</div>
 						<% end %>
 					<% end if f.object.blocks.any? %>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<%= form_tag "#" do |bf| %>
+						<%= label_tag "Add new" %>
+
+						<div class="input-group mb-3">
+						  <%= select_tag :type, options_for_select(Block.avaiable_blocks), { class: "form-control" } %>
+
+					    <div class="input-group-append">
+					    	<% data = { reflex: "click->block#create", post_id: post.id } %>
+					    	<%= submit_tag "Add", class: "btn btn-info", data: data %>
+					    </div>
+						</div>
+					<% end %>
 				</div>
 			</div>
 
